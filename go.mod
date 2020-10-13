@@ -1,4 +1,4 @@
-module winddle-pr-cli
+module github.com/aubinlrx/winddle-pr-cli
 
 go 1.14
 
