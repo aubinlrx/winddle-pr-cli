@@ -2,9 +2,11 @@ package view
 
 import (
 	"fmt"
+	"io"
 	"os"
 
 	"github.com/aubinlrx/winddle-pr-cli/api"
+	"github.com/aubinlrx/winddle-pr-cli/utils"
 	"github.com/spf13/cobra"
 )
 
@@ -21,11 +23,16 @@ func NewCommandView() *cobra.Command {
 }
 
 func viewRun() {
-	bodyString, err := api.GetAll()
+	out := io.Out
+	pullRequests, err := api.GetAll()
+
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
 
-	fmt.Println(bodyString)
+	for _, pullRequest := range *pullRequests {
+		fmt.Fprintf(out, "#%s", utils.Green(string(pullRequest.Number)))
+		fmt.Sprintf(pullRequest.Title)
+	}
 }
